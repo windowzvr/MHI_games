@@ -1,85 +1,61 @@
-/**
- * This script checks if games are being accessed from unauthorized sources
- * and blocks them from loading if they're not from the official launcher.
- */
-
-function checkGameAccess() {
-    // List of authorized domains that can load your games
-    const authorizedDomains = [
-        'backup-launcher-functions-18632018.codehs.me',
-        'localhost',
-        '127.0.0.1'
-    ];
-    
-    const currentDomain = window.location.hostname;
-    
-    // Check if current domain is in the authorized list
-    const isAuthorized = authorizedDomains.some(domain => 
-        currentDomain === domain || currentDomain.endsWith('.' + domain)
-    );
-    
-    if (!isAuthorized) {
-        // Block the page and show warning
-        blockUnauthorizedAccess();
-        return false;
-    }
-    
-    return true;
-}
-
-function blockUnauthorizedAccess() {
-    // Clear the page
+function injectGameProtection(htmlContent) {
+  const protectionScript = `<script>
+(function() {
+  var ALLOWED_DOMAIN = 'backup-launcher-functions-18632018.codehs.me';
+  var ALLOWED_ORIGIN = 'https://backup-launcher-functions-18632018.codehs.me';
+  var currentOrigin = window.location.origin;
+  var currentHostname = window.location.hostname;
+  var protocol = window.location.protocol;
+  
+  function blockAccess() {
+    document.documentElement.innerHTML = '';
     document.body.innerHTML = '';
-    document.body.style.cssText = `
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        padding: 20px;
-    `;
-    
-    const warningDiv = document.createElement('div');
-    warningDiv.style.cssText = `
-        background: white;
-        border-radius: 15px;
-        padding: 40px;
-        max-width: 500px;
-        text-align: center;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    `;
-    
-    warningDiv.innerHTML = `
-        <h1 style="color: #ff6b6b; margin-bottom: 20px; font-size: 2em;">⚠️ Unauthorized Access</h1>
-        <p style="color: #333; font-size: 1.1em; line-height: 1.6; margin-bottom: 30px;">
-            This game collection can only be accessed from the official launcher.
-        </p>
-        <p style="color: #666; font-size: 0.95em; margin-bottom: 20px;">
-            If you believe this is a mistake or need access, please contact the site administrator.
-        </p>
-        <a href="https://backup-launcher-functions-18632018.codehs.me/" 
-           style="
-               display: inline-block;
-               background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-               color: white;
-               padding: 12px 30px;
-               border-radius: 8px;
-               text-decoration: none;
-               font-weight: 600;
-               transition: transform 0.3s ease;
-           "
-           onmouseover="this.style.transform='scale(1.05)'"
-           onmouseout="this.style.transform='scale(1)'">
-            Go to Official Launcher
-        </a>
-    `;
-    
-    document.body.appendChild(warningDiv);
-    
-    // Log the unauthorized access attempt
-    console.warn(`Unauthorized access attempt from: ${window.location.href}`);
+    document.documentElement.style.cssText = 'width:100%;height:100%;margin:0;padding:0;overflow:hidden;';
+    document.body.style.cssText = 'width:100%;height:100%;margin:0;padding:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);font-family:Arial,sans-serif;overflow:hidden;';
+    var overlay = document.createElement('div');
+    overlay.style.cssText = 'background:white;padding:40px;border-radius:15px;text-align:center;max-width:450px;box-shadow:0 20px 60px rgba(0,0,0,0.3);';
+    overlay.innerHTML = '<div style="font-size:48px;margin-bottom:20px;">🔒</div><h2 style="color:#ff6b6b;margin:0 0 15px 0;font-size:24px;">Access Denied</h2><p style="color:#666;margin:0 0 20px 0;line-height:1.6;">This game can only be accessed through the official launcher.</p><p style="color:#999;font-size:13px;margin:0;">Detected: ' + currentHostname + '</p>';
+    document.body.appendChild(overlay);
+  }
+  
+  var isValid = protocol === 'https:' && currentOrigin === ALLOWED_ORIGIN && currentHostname === ALLOWED_DOMAIN;
+  
+  if (!isValid) {
+    blockAccess();
+  }
+})();
+</script>`;
+
+  // Find best insertion point (before any game code executes)
+  var lowerHtml = htmlContent.toLowerCase();
+  var doctypeIndex = lowerHtml.indexOf('<!doctype');
+  var htmlIndex = lowerHtml.indexOf('<html');
+  var headIndex = lowerHtml.indexOf('<head');
+
+  // Insert after opening HTML tag if found
+  if (doctypeIndex !== -1) {
+    var endDoctype = htmlContent.indexOf('>', doctypeIndex);
+    return htmlContent.substring(0, endDoctype + 1) + protectionScript + htmlContent.substring(endDoctype + 1);
+  } else if (htmlIndex !== -1) {
+    var endHtmlTag = htmlContent.indexOf('>', htmlIndex);
+    return htmlContent.substring(0, endHtmlTag + 1) + protectionScript + htmlContent.substring(endHtmlTag + 1);
+  } else if (headIndex !== -1) {
+    var endHeadTag = htmlContent.indexOf('>', headIndex);
+    return htmlContent.substring(0, endHeadTag + 1) + protectionScript + htmlContent.substring(endHeadTag + 1);
+  }
+
+  // Fallback: prepend to entire content
+  return protectionScript + htmlContent;
 }
 
-// Run the check immediately when script loads
-checkGameAccess();
+// Export for use in other scripts
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { injectGameProtection };
+}
+
+Usage in your launcher:
+
+// When opening a game:
+const protectedHTML = injectGameProtection(htmlContent);
+const newWindow = window.open('', '_blank');
+newWindow.document.write(protectedHTML);
