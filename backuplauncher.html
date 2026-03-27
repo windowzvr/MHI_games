@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MHI Games Launcher</title>
-    <style>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MHI Games Launcher</title>
+  <style>
         :root {
             --primary-color-1: #667eea;
             --primary-color-2: #764ba2;
@@ -322,85 +322,115 @@
             width: 0%;
             transition: width 0.3s ease;
         }
+
+        .auth-warning {
+            color: #ff6b6b;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .auth-warning a {
+            color: #667eea;
+            text-decoration: underline;
+            cursor: pointer;
+        }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎮 MHI Games</h1>
-        <p class="subtitle">Select a game to play</p>
-        
-        <!-- Theme Selector -->
-        <div class="theme-selector">
-            <span class="theme-label">🎨 Theme:</span>
-            <div class="theme-preset active" id="themeDefault" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" title="Default Purple"></div>
-            <div class="theme-preset" id="themeDark" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);" title="Dark Blue"></div>
-            <div class="theme-preset" id="themeNeon" style="background: linear-gradient(135deg, #00d4ff 0%, #ff006e 100%);" title="Neon"></div>
-            <div class="theme-preset" id="themeForest" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);" title="Forest Green"></div>
-            <div class="theme-preset" id="themeSunset" style="background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);" title="Sunset"></div>
-            <div class="theme-preset" id="themeOcean" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" title="Ocean"></div>
-        </div>
-
-        <!-- Custom Color Input -->
-        <div class="custom-color-inputs">
-            <div class="color-input-group">
-                <label for="customColor1">Primary 1:</label>
-                <input type="color" id="customColor1" value="#667eea">
-            </div>
-            <div class="color-input-group">
-                <label for="customColor2">Primary 2:</label>
-                <input type="color" id="customColor2" value="#764ba2">
-            </div>
-            <div class="color-input-group">
-                <label for="customAccent">Accent:</label>
-                <input type="color" id="customAccent" value="#ff6b6b">
-            </div>
-        </div>
-
-        <div class="search-container">
-            <input type="text" id="searchBox" placeholder="🔍 Search games..." />
-        </div>
-
-        <div class="control-buttons">
-            <button class="control-btn download-all-btn" id="downloadAllBtn">⬇️ Download All Games</button>
-            <button class="control-btn clear-cache-btn" id="clearCacheBtn">🗑️ Clear Cache</button>
-        </div>
-
-        <div class="storage-info">
-            <span id="storageInfo">Loading storage info...</span>
-        </div>
-
-        <div class="game-count">
-            <span id="gameCountText">Loading...</span>
-        </div>
-        
-        <div id="gamesContainer" class="games-grid">
-            <div class="loading">Loading games...</div>
-        </div>
-
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-        </div>
-
-        <div class="info">
-            <strong>ℹ️ How it works:</strong><br>
-            • Games are downloaded and stored locally on your computer<br>
-            • Click "Download All Games" to cache all games (first time only)<br>
-            • Once cached, games run instantly from your computer<br>
-            • A checkmark (✓) shows which games are downloaded<br>
-            • Use "Clear Cache" to free up space<br>
-            • Internet connection only needed for initial download<br>
-            • 🎨 Customize colors above!
-        </div>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <h1>🎮 MHI Games</h1>
+   <p class="subtitle">Select a game to play</p><!-- Theme Selector -->
+   <div class="theme-selector"><span class="theme-label">🎨 Theme:</span>
+    <div class="theme-preset active" id="themeDefault" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" title="Default Purple"></div>
+    <div class="theme-preset" id="themeDark" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);" title="Dark Blue"></div>
+    <div class="theme-preset" id="themeNeon" style="background: linear-gradient(135deg, #00d4ff 0%, #ff006e 100%);" title="Neon"></div>
+    <div class="theme-preset" id="themeForest" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);" title="Forest Green"></div>
+    <div class="theme-preset" id="themeSunset" style="background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);" title="Sunset"></div>
+    <div class="theme-preset" id="themeOcean" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" title="Ocean"></div>
+   </div><!-- Custom Color Input -->
+   <div class="custom-color-inputs">
+    <div class="color-input-group"><label for="customColor1">Primary 1:</label> <input type="color" id="customColor1" value="#667eea">
     </div>
-
-    <script>
+    <div class="color-input-group"><label for="customColor2">Primary 2:</label> <input type="color" id="customColor2" value="#764ba2">
+    </div>
+    <div class="color-input-group"><label for="customAccent">Accent:</label> <input type="color" id="customAccent" value="#ff6b6b">
+    </div>
+   </div>
+   <div class="search-container"><input type="text" id="searchBox" placeholder="🔍 Search games...">
+   </div>
+   <div class="control-buttons"><button class="control-btn download-all-btn" id="downloadAllBtn">⬇️ Download All Games</button> <button class="control-btn clear-cache-btn" id="clearCacheBtn">🗑️ Clear Cache</button>
+   </div>
+   <div class="storage-info"><span id="storageInfo">Loading storage info...</span>
+   </div>
+   <div class="game-count"><span id="gameCountText">Loading...</span>
+   </div>
+   <div id="gamesContainer" class="games-grid">
+    <div class="loading">
+     Loading games...
+    </div>
+   </div>
+   <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+   </div>
+   <div class="info"><strong>ℹ️ How it works:</strong><br>
+     • Games are downloaded and stored locally on your computer<br>
+     • Click "Download All Games" to cache all games (first time only)<br>
+     • Once cached, games run instantly from your computer<br>
+     • A checkmark (✓) shows which games are downloaded<br>
+     • Use "Clear Cache" to free up space<br>
+     • Internet connection only needed for initial download<br>
+     • 🎨 Customize colors above!
+   </div>
+  </div>
+  <script>
         // IndexedDB setup for larger storage capacity
         const DB_NAME = 'MHIGamesDB';
         const STORE_NAME = 'games';
         const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/Math-Helper/MHI_games/master/offline/';
+        const AUTHORIZED_URL = 'https://backup-launcher-functions-18632018.codehs.me/';
 
         let db = null;
         let filteredGames = [];
+        let isAuthorized = false;
+
+        // Check if accessed from authorized URL
+        function checkAuthorization() {
+            const currentURL = window.location.href;
+            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            
+            if (isLocalhost || currentURL.startsWith(AUTHORIZED_URL)) {
+                isAuthorized = true;
+                return true;
+            } else {
+                isAuthorized = false;
+                showUnauthorizedMessage();
+                return false;
+            }
+        }
+
+        function showUnauthorizedMessage() {
+            document.getElementById('gamesContainer').innerHTML = `
+                <div class="no-games" style="grid-column: 1 / -1;">
+                    <div class="auth-warning">
+                        ⚠️ Unauthorized Access<br><br>
+                        This launcher can only be used from the official URL.<br><br>
+                        <a href="${AUTHORIZED_URL}">Visit Official Launcher</a>
+                    </div>
+                </div>
+            `;
+            document.querySelector('h1').style.opacity = '0.5';
+            document.querySelector('.subtitle').style.opacity = '0.5';
+            document.querySelectorAll('.control-btn, #searchBox, .theme-preset').forEach(el => {
+                el.disabled = true;
+                el.style.opacity = '0.5';
+                el.style.cursor = 'not-allowed';
+            });
+        }
 
         // Theme presets
         const themes = {
@@ -816,6 +846,8 @@
 
         // Open game
         async function openGame(gameName, filename) {
+            if (!isAuthorized) return;
+            
             try {
                 let htmlContent = null;
                 
@@ -851,6 +883,8 @@
 
         // Download all games
         async function downloadAllGames() {
+            if (!isAuthorized) return;
+            
             const downloadBtn = document.getElementById('downloadAllBtn');
             const progressFill = document.getElementById('progressFill');
             
@@ -895,6 +929,8 @@
 
         // Clear cache
         async function clearCache() {
+            if (!isAuthorized) return;
+            
             if (confirm('Are you sure you want to delete all cached games?')) {
                 try {
                     const transaction = db.transaction([STORE_NAME], 'readwrite');
@@ -972,6 +1008,11 @@
         // Initialize
         async function init() {
             try {
+                // Check authorization first before loading anything
+                if (!checkAuthorization()) {
+                    return;
+                }
+                
                 // Load saved theme first
                 loadSavedTheme();
                 
@@ -1060,5 +1101,5 @@
             init();
         }
     </script>
-</body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e303b0fa0a05309',t:'MTc3NDYzMzc1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
