@@ -392,7 +392,13 @@
         const DB_NAME = 'MHIGamesDB';
         const STORE_NAME = 'games';
         const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/Math-Helper/MHI_games/master/offline/';
+        
         const AUTHORIZED_URL = 'https://backup-launcher-functions-18632018.codehs.me/';
+        const AUTHORIZED_DOMAINS = [
+            'backup-launcher-functions-18632018.codehs.me',
+            'localhost',
+            '127.0.0.1'
+        ];
 
         let db = null;
         let filteredGames = [];
@@ -400,10 +406,14 @@
 
         // Check if accessed from authorized URL
         function checkAuthorization() {
-            const currentURL = window.location.href;
-            const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const currentHostname = window.location.hostname;
+            const isLocalhost = currentHostname === 'localhost' || currentHostname === '127.0.0.1';
             
-            if (isLocalhost || currentURL.startsWith(AUTHORIZED_URL)) {
+            const isAuthorizedDomain = AUTHORIZED_DOMAINS.some(domain => 
+                currentHostname === domain || currentHostname.endsWith('.' + domain)
+            );
+            
+            if (isLocalhost || isAuthorizedDomain) {
                 isAuthorized = true;
                 return true;
             } else {
@@ -1101,5 +1111,5 @@
             init();
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e303b0fa0a05309',t:'MTc3NDYzMzc1Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e304d7ee48b5309',t:'MTc3NDYzNDUxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
