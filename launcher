@@ -1,18 +1,1115 @@
-<html><body onload="document.forms[0].submit()">
-<form action="https://ckf04.alpinedistrict.org/cgi-bin/blockpage/blockpage.cgi" method="GET">
-<input type="Hidden" name="URL" value="github.com/windowzvr/MHI_games/raw/refs/heads/master/backuplauncher.html">
-<input type="Hidden" name="CAT" value="Secondary Only Sites (Custom)">
-<input type="Hidden" name="CATNO" value="106">
-<input type="Hidden" name="ACC" value="411chromewls1/alpine">
-<input type="Hidden" name="WHY" value="Policy=default">
-<input type="Hidden" name="MOD" value="2">
-<input type="Hidden" name="APP" value="openvpn">
-<input type="Hidden" name="ISO" value="2 Min(s), 45 Sec(s)">
-<input type="Hidden" name="IPA" value="10.232.8.104">
-<input type="Hidden" name="RAW" value="https://github.com/windowzvr/MHI_games/raw/refs/heads/master/backuplauncher.html">
-<input type="Hidden" name="AUTH0" value=",Secondary Only Sites (Custom)">
-<input type="Hidden" name="PGE" value="https://ckf04.alpinedistrict.org/cgi-bin/blockpage/blockpage.cgi">
-<input type="Hidden" name="STR" value="null,null,null,null,null">
-<input type="Hidden" name="SRV" value="null">
-<input type="Hidden" name="AUTH1" value=",github.com/windowzvr/MHI_games/raw/refs/heads/master/backuplauncher.html,Secondary Only Sites (Custom)">
-</form></body></html>
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MHI Games Launcher</title>
+  <style>
+        :root {
+            --primary-color-1: #667eea;
+            --primary-color-2: #764ba2;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --light-text: #666;
+            --background-light: #f5f5f5;
+            --border-color: #ddd;
+            --success-color: #4caf50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, var(--primary-color-1) 0%, var(--primary-color-2) 100%);
+            border-radius: 6px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
+        }
+
+        /* Firefox scrollbar */
+        * {
+            scrollbar-color: linear-gradient(135deg, var(--primary-color-1) 0%, var(--primary-color-2) 100%) #f1f1f1;
+            scrollbar-width: thin;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color-1) 0%, var(--primary-color-2) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 1200px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--light-text);
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+
+        .theme-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .theme-label {
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .theme-preset {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-preset:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-preset.active {
+            border-color: var(--text-color);
+            transform: scale(1.15);
+        }
+
+        .custom-color-inputs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .color-input-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .color-input-group label {
+            font-size: 0.85em;
+            color: var(--light-text);
+            min-width: 80px;
+        }
+
+        .color-input-group input {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .search-container {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        #searchBox {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchBox:focus {
+            outline: none;
+            border-color: var(--primary-color-1);
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-all-btn {
+            background: linear-gradient(135deg, var(--primary-color-1) 0%, var(--primary-color-2) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .clear-cache-btn {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .clear-cache-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .storage-info {
+            text-align: center;
+            color: var(--light-text);
+            font-size: 0.9em;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: var(--background-light);
+            border-radius: 8px;
+        }
+
+        .game-count {
+            text-align: center;
+            color: #999;
+            font-size: 0.9em;
+            margin-bottom: 20px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .game-button {
+            background: linear-gradient(135deg, var(--primary-color-1) 0%, var(--primary-color-2) 100%);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            word-wrap: break-word;
+            word-break: break-word;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .game-button:active {
+            transform: translateY(-2px);
+        }
+
+        .game-button.downloading {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .game-button.cached::after {
+            content: '✓';
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: var(--success-color);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .no-games {
+            text-align: center;
+            color: var(--light-text);
+            padding: 40px;
+            font-size: 1.1em;
+        }
+
+        .loading {
+            text-align: center;
+            color: var(--primary-color-1);
+            padding: 20px;
+            font-size: 1.1em;
+        }
+
+        .info {
+            background: #f0f4ff;
+            border-left: 4px solid var(--primary-color-1);
+            padding: 15px;
+            margin-top: 30px;
+            border-radius: 5px;
+            color: var(--text-color);
+            font-size: 0.9em;
+            line-height: 1.6;
+        }
+
+        .info strong {
+            color: var(--primary-color-1);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: var(--border-color);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color-1) 0%, var(--primary-color-2) 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .auth-warning {
+            color: #ff6b6b;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .auth-warning a {
+            color: #667eea;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+  <style>body { box-sizing: border-box; }</style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="container">
+   <h1>🎮 MHI Games</h1>
+   <p class="subtitle">Select a game to play</p><!-- Theme Selector -->
+   <div class="theme-selector"><span class="theme-label">🎨 Theme:</span>
+    <div class="theme-preset active" id="themeDefault" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" title="Default Purple"></div>
+    <div class="theme-preset" id="themeDark" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);" title="Dark Blue"></div>
+    <div class="theme-preset" id="themeNeon" style="background: linear-gradient(135deg, #00d4ff 0%, #ff006e 100%);" title="Neon"></div>
+    <div class="theme-preset" id="themeForest" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);" title="Forest Green"></div>
+    <div class="theme-preset" id="themeSunset" style="background: linear-gradient(135deg, #ff6b6b 0%, #ffd93d 100%);" title="Sunset"></div>
+    <div class="theme-preset" id="themeOcean" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" title="Ocean"></div>
+   </div><!-- Custom Color Input -->
+   <div class="custom-color-inputs">
+    <div class="color-input-group"><label for="customColor1">Primary 1:</label> <input type="color" id="customColor1" value="#667eea">
+    </div>
+    <div class="color-input-group"><label for="customColor2">Primary 2:</label> <input type="color" id="customColor2" value="#764ba2">
+    </div>
+    <div class="color-input-group"><label for="customAccent">Accent:</label> <input type="color" id="customAccent" value="#ff6b6b">
+    </div>
+   </div>
+   <div class="search-container"><input type="text" id="searchBox" placeholder="🔍 Search games...">
+   </div>
+   <div class="control-buttons"><button class="control-btn download-all-btn" id="downloadAllBtn">⬇️ Download All Games</button> <button class="control-btn clear-cache-btn" id="clearCacheBtn">🗑️ Clear Cache</button>
+   </div>
+   <div class="storage-info"><span id="storageInfo">Loading storage info...</span>
+   </div>
+   <div class="game-count"><span id="gameCountText">Loading...</span>
+   </div>
+   <div id="gamesContainer" class="games-grid">
+    <div class="loading">
+     Loading games...
+    </div>
+   </div>
+   <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+   </div>
+   <div class="info"><strong>ℹ️ How it works:</strong><br>
+     • Games are downloaded and stored locally on your computer<br>
+     • Click "Download All Games" to cache all games (first time only)<br>
+     • Once cached, games run instantly from your computer<br>
+     • A checkmark (✓) shows which games are downloaded<br>
+     • Use "Clear Cache" to free up space<br>
+     • Internet connection only needed for initial download<br>
+     • 🎨 Customize colors above!
+   </div>
+  </div>
+  <script>
+        // IndexedDB setup for larger storage capacity
+        const DB_NAME = 'MHIGamesDB';
+        const STORE_NAME = 'games';
+        const GITHUB_RAW_URL = 'https://raw.githubusercontent.com/Math-Helper/MHI_games/master/offline/';
+        
+        const AUTHORIZED_URL = 'https://backup-launcher-functions-18632018.codehs.me/';
+        const AUTHORIZED_DOMAINS = [
+            'backup-launcher-functions-18632018.codehs.me',
+            'localhost',
+            '127.0.0.1'
+        ];
+
+        let db = null;
+        let filteredGames = [];
+        let isAuthorized = false;
+
+        // Check if accessed from authorized URL
+        function checkAuthorization() {
+            const currentHostname = window.location.hostname;
+            const isLocalhost = currentHostname === 'localhost' || currentHostname === '127.0.0.1';
+            
+            const isAuthorizedDomain = AUTHORIZED_DOMAINS.some(domain => 
+                currentHostname === domain || currentHostname.endsWith('.' + domain)
+            );
+            
+            if (isLocalhost || isAuthorizedDomain) {
+                isAuthorized = true;
+                return true;
+            } else {
+                isAuthorized = false;
+                showUnauthorizedMessage();
+                return false;
+            }
+        }
+
+        function showUnauthorizedMessage() {
+            document.getElementById('gamesContainer').innerHTML = `
+                <div class="no-games" style="grid-column: 1 / -1;">
+                    <div class="auth-warning">
+                        ⚠️ Unauthorized Access<br><br>
+                        This launcher can only be used from the official URL.<br><br>
+                        <a href="${AUTHORIZED_URL}">Visit Official Launcher</a>
+                    </div>
+                </div>
+            `;
+            document.querySelector('h1').style.opacity = '0.5';
+            document.querySelector('.subtitle').style.opacity = '0.5';
+            document.querySelectorAll('.control-btn, #searchBox, .theme-preset').forEach(el => {
+                el.disabled = true;
+                el.style.opacity = '0.5';
+                el.style.cursor = 'not-allowed';
+            });
+        }
+
+        // Theme presets
+        const themes = {
+            default: { color1: '#667eea', color2: '#764ba2', accent: '#ff6b6b' },
+            dark: { color1: '#1a1a2e', color2: '#16213e', accent: '#e94560' },
+            neon: { color1: '#00d4ff', color2: '#ff006e', accent: '#00ff88' },
+            forest: { color1: '#11998e', color2: '#38ef7d', accent: '#ff6b6b' },
+            sunset: { color1: '#ff6b6b', color2: '#ffd93d', accent: '#ff006e' },
+            ocean: { color1: '#0077be', color2: '#00a8e8', accent: '#00c9ff' }
+        };
+
+        // Configuration - All your games
+        const GAMES_LIST = [
+            { name: '1.12', filename: '1.12.html' },
+            { name: '1.5', filename: '1.5.html' },
+            { name: '1.8', filename: '1.8.html' },
+            { name: '10 Minutes Till Dawn', filename: '10minutestilldawn.html' },
+            { name: '12 Mini Battles', filename: '12minibattles.html' },
+            { name: '1 on 1 Soccer', filename: '1on1soccer.html' },
+            { name: '1 on 1 Tennis', filename: '1on1tennis.html' },
+            { name: '1v1.lol', filename: '1v1.lol.html' },
+            { name: '2048', filename: '2048.html' },
+            { name: '2048 Cupcakes', filename: '2048cupcakes.html' },
+            { name: '3D Flight Simulator', filename: '3Dflightsimulator.html' },
+            { name: '8 Ball Classic', filename: '8ballclassic.html' },
+            { name: 'Alpha 1.2.6', filename: 'Alpha_1.2.6.html' },
+            { name: 'Beta 1.3', filename: 'Beta_1.3.html' },
+            { name: 'Indev', filename: 'Indev.html' },
+            { name: 'Agariolite', filename: 'agariolite.html' },
+            { name: 'Age of War', filename: 'ageofwar.html' },
+            { name: 'Age of War 2', filename: 'ageofwar2.html' },
+            { name: 'Ages of Conflict', filename: 'agesofconflict.html' },
+            { name: 'Among Us', filename: 'amongus.html' },
+            { name: 'Angry Birds', filename: 'angrybirds.html' },
+            { name: 'Angry Birds Showdown', filename: 'angrybirdsshowdown.html' },
+            { name: 'Angry Birds Space', filename: 'angrybirdsspace.html' },
+            { name: 'Awesome Tanks', filename: 'awesometanks.html' },
+            { name: 'Awesome Tanks 2', filename: 'awesometanks2.html' },
+            { name: 'Backrooms', filename: 'backrooms.html' },
+            { name: 'Bacon May Die', filename: 'baconmaydie.html' },
+            { name: 'Bad Ice Cream', filename: 'badicecream.html' },
+            { name: 'Bad Ice Cream 2', filename: 'badicecream2.html' },
+            { name: 'Bad Ice Cream 3', filename: 'badicecream3.html' },
+            { name: 'Bad Parenting', filename: 'badparenting.html' },
+            { name: 'Bad Piggies', filename: 'badpiggies.html' },
+            { name: "Baldi's Basics", filename: 'baldisbasics.html' },
+            { name: 'Baseball Bros', filename: 'baseballbros.html' },
+            { name: 'Basketball Legends', filename: 'basketballlegends.html' },
+            { name: 'Basketball Stars', filename: 'basketballstars.html' },
+            { name: 'Basket Bros', filename: 'basketbros.html' },
+            { name: 'Basket Random', filename: 'basketrandom.html' },
+            { name: 'BitLife', filename: 'bitlife.html' },
+            { name: 'Bit Planes', filename: 'bitplanes.htm' },
+            { name: 'Blocky Snakes', filename: 'blockysnakes.html' },
+            { name: 'Bloons TD', filename: 'bloonsTD.html' },
+            { name: 'Bloons TD 2', filename: 'bloonsTD2.html' },
+            { name: 'Bloons TD 3', filename: 'bloonsTD3.html' },
+            { name: 'Bloons TD 4', filename: 'bloonsTD4.html' },
+            { name: 'Bloons TD 5', filename: 'bloonsTD5.html' },
+            { name: 'Bloxorz', filename: 'bloxorz.html' },
+            { name: 'Blumgi Racers', filename: 'blumgiracers.html' },
+            { name: 'Blumgi Rocket', filename: 'blumgirocket.html' },
+            { name: 'Bob the Robber', filename: 'bobtherobber.html' },
+            { name: 'Bob the Robber 2', filename: 'bobtherobber2.html' },
+            { name: 'Bob the Robber 5', filename: 'bobtherobber5.html' },
+            { name: 'Bouncy Motors', filename: 'bouncymotors.html' },
+            { name: 'Bowmasters', filename: 'bowmasters.html' },
+            { name: 'Boxing Random', filename: 'boxingrandom.htm' },
+            { name: 'Breaking the Bank', filename: 'breakingthebank.html' },
+            { name: 'Bubble Shooter', filename: 'bubbleshooter.html' },
+            { name: 'Candy Crush', filename: 'candycrush.html' },
+            { name: 'Capybara Clicker', filename: 'capybaraclicker.html' },
+            { name: 'Card Drawing', filename: 'cardrawing.html' },
+            { name: 'Car King Arena', filename: 'carkingarena.html' },
+            { name: 'Chess', filename: 'chess.html' },
+            { name: 'Choppy Orc', filename: 'choppyorc.html' },
+            { name: 'CircloO', filename: 'circloO.html' },
+            { name: 'CircloO 2', filename: 'circloO2.html' },
+            { name: 'Clash of Vikings', filename: 'clashofvikings.html' },
+            { name: 'Cleanup.io', filename: 'cleanupio.html' },
+            { name: 'Cluster Rush', filename: 'clusterrush.html' },
+            { name: 'Cookie Clicker', filename: 'cookieclicker.htm' },
+            { name: 'Crazy Cars', filename: 'crazycars.html' },
+            { name: 'Crazy Cattle 3D', filename: 'crazycattle3D.html' },
+            { name: 'Crazy Crash Landing', filename: 'crazycrashlanding.html' },
+            { name: 'Crazy Motorcycle', filename: 'crazymotorcycle.html' },
+            { name: 'Crossy Road', filename: 'crossyroad.htm' },
+            { name: 'Cut the Rope', filename: 'cuttherope.html' },
+            { name: 'Dadish', filename: 'dadish.html' },
+            { name: 'Dadish 2', filename: 'dadish2.html' },
+            { name: 'Dadish 3', filename: 'dadish3.html' },
+            { name: 'Death Chase', filename: 'deathchase.html' },
+            { name: 'Death Run 3D', filename: 'deathrun3D.html' },
+            { name: 'Demolition Derby Crash Racing', filename: 'demolitionderbycrashracing.html' },
+            { name: 'Doodle Jump', filename: 'doodlejump.html' },
+            { name: 'Draw Climber', filename: 'drawclimber.html' },
+            { name: 'Dread Head Parkour', filename: 'dreadheadparkour.htm' },
+            { name: 'Drift Boss', filename: 'driftboss.htm' },
+            { name: 'Drive Mad', filename: 'drivemad.htm' },
+            { name: 'Duck Life', filename: 'ducklife.html' },
+            { name: 'Duck Life 2', filename: 'ducklife2.html' },
+            { name: 'Duck Life 3', filename: 'ducklife3.html' },
+            { name: 'Duck Life 4', filename: 'ducklife4.html' },
+            { name: 'Duck Life 5', filename: 'ducklife5.html' },
+            { name: 'Ducklings.io', filename: 'ducklingsio.html' },
+            { name: 'Eagle Ride', filename: 'eagleride.html' },
+            { name: 'Earn to Die', filename: 'earntodie.html' },
+            { name: 'Earn to Die 2', filename: 'earntodie2.html' },
+            { name: 'Eggy Car', filename: 'eggycar.html' },
+            { name: 'Elastic Face', filename: 'elasticface.htm' },
+            { name: 'Escape Road', filename: 'escaperoad.html' },
+            { name: 'Escape Road 2', filename: 'escaperoad2.html' },
+            { name: 'Escaping the Prison', filename: 'escapingtheprison.html' },
+            { name: 'Evil Glitch', filename: 'evilglitch.html' },
+            { name: 'Fancy Pants Adventure', filename: 'fancypantsadventure.html' },
+            { name: 'Fancy Pants Adventure 2', filename: 'fancypantsadventure2.html' },
+            { name: 'Fireboy and Watergirl', filename: 'fireboyandwatergirl.html' },
+            { name: 'Fireboy and Watergirl 2', filename: 'fireboyandwatergirl2.html' },
+            { name: 'Fireboy and Watergirl 3', filename: 'fireboyandwatergirl3.html' },
+            { name: 'Fireboy and Watergirl 4', filename: 'fireboyandwatergirl4.html' },
+            { name: 'Flappy Bird', filename: 'flappybird.html' },
+            { name: 'Flood Runner 2', filename: 'floodrunner2.html' },
+            { name: 'Flood Runner 3', filename: 'floodrunner3.html' },
+            { name: 'Flood Runner 4', filename: 'floodrunner4.html' },
+            { name: 'FNAF', filename: 'fnaf.html' },
+            { name: 'FNAF 2', filename: 'fnaf2.html' },
+            { name: 'FNAF 3', filename: 'fnaf3.html' },
+            { name: 'FNAF 4', filename: 'fnaf4.html' },
+            { name: 'Football Bros', filename: 'footballbros.html' },
+            { name: 'Football Legends', filename: 'footballlegends.html' },
+            { name: 'Free Rider 3', filename: 'freerider3.html' },
+            { name: 'Fruit Ninja', filename: 'fruitninja.html' },
+            { name: 'Funny Battle', filename: 'funnybattle.html' },
+            { name: 'Funny Battle 2', filename: 'funnybattle2.html' },
+            { name: 'Funny Mad Racing', filename: 'funnymadracing.html' },
+            { name: 'Funny Shooter 2', filename: 'funnyshooter2.html' },
+            { name: 'Geometry Dash', filename: 'geometrydash.html' },
+            { name: 'Geometry Dash Lite', filename: 'geometrydashlite.html' },
+            { name: 'Geometry Vibes', filename: 'geometryvibes.html' },
+            { name: 'Get Away Shootout', filename: 'getawayshootout.htm' },
+            { name: 'Get on Top', filename: 'getontop.html' },
+            { name: 'Gladi Hoppers', filename: 'gladihoppers.html' },
+            { name: 'Google Baseball', filename: 'googlebaseball.html' },
+            { name: 'Google Dino', filename: 'googledino.html' },
+            { name: 'Granny', filename: 'granny.html' },
+            { name: 'Granny 2', filename: 'granny2.html' },
+            { name: 'Guess Their Answer', filename: 'guesstheiranswer.html' },
+            { name: 'Hanger 2', filename: 'hanger2.html' },
+            { name: 'Happy Wheels', filename: 'happywheels.html' },
+            { name: 'Helix Jump', filename: 'helixjump.html' },
+            { name: 'Highway Traffic', filename: 'highwaytraffic.html' },
+            { name: 'Hill Climb Racing Lite', filename: 'hillclimbracinglite.html' },
+            { name: 'Hole.io', filename: 'holeio.html' },
+            { name: 'House of Hazards', filename: 'houseofhazards.html' },
+            { name: 'Hover Racer Drive', filename: 'hoverracerdrive.html' },
+            { name: 'Idle Breakout', filename: 'idlebreakout.html' },
+            { name: 'Iron Snout', filename: 'ironsnout.html' },
+            { name: 'Jetpack Joyride', filename: 'jetpackjoyride.html' },
+            { name: 'Johnny Trigger', filename: 'johnnytrigger.html' },
+            { name: 'Jumping Shell', filename: 'jumpingshell.html' },
+            { name: 'Karate Bros', filename: 'karatebros.html' },
+            { name: 'Kart Bros', filename: 'kartbros.html' },
+            { name: 'Learn to Fly', filename: 'learntofly.html' },
+            { name: 'Learn to Fly 2', filename: 'learntofly2.html' },
+            { name: 'Learn to Fly 3', filename: 'learntofly3.html' },
+            { name: 'Learn to Fly Idle', filename: 'learntoflyidle.html' },
+            { name: 'Level Devil', filename: 'leveldevil.html' },
+            { name: 'Madalin Stunt Cars 2', filename: 'madalinstuntcars2.html' },
+            { name: 'Melon Playground', filename: 'melonplayground.html' },
+            { name: 'Merge Round Racers', filename: 'mergeroundracers.html' },
+            { name: 'Minesweeper', filename: 'minesweeper.html' },
+            { name: 'Monkey Mart', filename: 'monkeymart.htm' },
+            { name: 'Monster Tracks', filename: 'monstertracks.html' },
+            { name: 'Moto X3M', filename: 'motox3m.htm' },
+            { name: 'Moto X3M 2', filename: 'motox3m2.html' },
+            { name: 'Moto X3M 3', filename: 'motox3m3.html' },
+            { name: 'Moto X3M Pool Party', filename: 'motox3mpoolparty.html' },
+            { name: 'Moto X3M Spooky Land', filename: 'motox3mspookyland.html' },
+            { name: 'Moto X3M Winter', filename: 'motox3mwinter.html' },
+            { name: 'Noob Miner', filename: 'noobminer.html' },
+            { name: 'Opposite Day', filename: 'oppositeday.html' },
+            { name: 'OvO', filename: 'ovo.html' },
+            { name: 'OvO 2', filename: 'ovo2.html' },
+            { name: 'OvO 3D', filename: 'ovo3dimensions.html' },
+            { name: 'Pac-Man', filename: 'pacman.html' },
+            { name: "Papa's Bakeria", filename: 'papasbakeria.html' },
+            { name: "Papa's Burgeria", filename: 'papasburgeria.html' },
+            { name: "Papa's Cheeseria", filename: 'papascheeseria.html' },
+            { name: "Papa's Cupcakeria", filename: 'papascupcakeria.html' },
+            { name: "Papa's Donuteria", filename: 'papasdonuteria.html' },
+            { name: "Papa's Freezeria", filename: 'papasfreezeria.html' },
+            { name: "Papa's Hot Doggeria", filename: 'papashotdoggeria.html' },
+            { name: "Papa's Pancakeria", filename: 'papaspancakeria.html' },
+            { name: "Papa's Pastaria", filename: 'papaspastaria.html' },
+            { name: "Papa's Pizzeria", filename: 'papaspizzeria.html' },
+            { name: "Papa's Scooperia", filename: 'papasscooperia.html' },
+            { name: "Papa's Sushiria", filename: 'papassushiria.html' },
+            { name: "Papa's Tacomia", filename: 'papastacomia.html' },
+            { name: "Papa's Wingeria", filename: 'papaswingeria.html' },
+            { name: 'Paper.io 2', filename: 'paperio2.htm' },
+            { name: 'Parking Fury', filename: 'parkingfury.html' },
+            { name: 'Parking Fury 2', filename: 'parkingfury2.html' },
+            { name: 'Parking Fury 3', filename: 'parkingfury3.html' },
+            { name: "Pico's School", filename: 'picosschool.html' },
+            { name: 'Ping Pong Chaos', filename: 'pingpongchaos.html' },
+            { name: 'Pixel Speedrun', filename: 'pixelspeedrun.html' },
+            { name: 'Plants vs Zombies', filename: 'plantsvszombies.html' },
+            { name: 'Plonky', filename: 'plonky.html' },
+            { name: 'Polytrack', filename: 'polytrack.html' },
+            { name: 'Poor Bunny', filename: 'poorbunny.html' },
+            { name: 'Pou', filename: 'pou.html' },
+            { name: 'Ragdoll Archers', filename: 'ragdollarchers.htm' },
+            { name: 'Ragdoll Hit', filename: 'ragdollhit.html' },
+            { name: 'Ragdoll Soccer', filename: 'ragdollsoccer.html' },
+            { name: 'Red Ball 4 Vol 1', filename: 'redball4vol1.html' },
+            { name: 'Red Ball 4 Vol 2', filename: 'redball4vol2.html' },
+            { name: 'Red Ball 4 Vol 3', filename: 'redball4vol3.html' },
+            { name: 'Retro Bowl', filename: 'retrobowl.html' },
+            { name: 'Retro Bowl College', filename: 'retrobowlcollege.html' },
+            { name: 'Retro Highway', filename: 'retrohighway.html' },
+            { name: 'Retro Ping Pong', filename: 'retropingpong.html' },
+            { name: 'Riddle School', filename: 'riddleschool.html' },
+            { name: 'Riddle School 2', filename: 'riddleschool2.html' },
+            { name: 'Riddle School 3', filename: 'riddleschool3.html' },
+            { name: 'Riddle School 4', filename: 'riddleschool4.html' },
+            { name: 'Riddle School 5', filename: 'riddleschool5.html' },
+            { name: 'Riddle Transfer', filename: 'riddletransfer.html' },
+            { name: 'Riddle Transfer 2', filename: 'riddletransfer2.html' },
+            { name: 'Rocket Soccer Derby', filename: 'rocketsoccerderby.html' },
+            { name: 'Rooftop Snipers', filename: 'rooftopsnipers.htm' },
+            { name: 'Rooftop Snipers 2', filename: 'rooftopsnipers2.html' },
+            { name: 'Run', filename: 'run.html' },
+            { name: 'Run 2', filename: 'run2.html' },
+            { name: 'Run 3', filename: 'run3.html' },
+            { name: 'Sand Game', filename: 'sandgame.html' },
+            { name: 'Short Life', filename: 'shortlife.html' },
+            { name: 'Slope', filename: 'slope.html' },
+            { name: 'Slope 2 Player', filename: 'slope2player.html' },
+            { name: 'Slope 3', filename: 'slope3.html' },
+            { name: 'Slow Roads', filename: 'slowroads.html' },
+            { name: 'SM63', filename: 'sm63.html' },
+            { name: 'SM64', filename: 'sm64.html' },
+            { name: 'Snowball.io', filename: 'snowballio.html' },
+            { name: 'Snow Rider', filename: 'snowrider.htm' },
+            { name: 'Snow Road', filename: 'snowroad.htm' },
+            { name: 'Soccer Bros', filename: 'soccerbros.html' },
+            { name: 'Soccer Random', filename: 'soccerrandom.htm' },
+            { name: 'Space Bar Clicker', filename: 'spacebarclicker.html' },
+            { name: 'Space is Key', filename: 'spaceiskey.html' },
+            { name: 'Space is Key 2', filename: 'spaceiskey2.html' },
+            { name: 'Space Waves', filename: 'spacewaves.html' },
+            { name: 'Speed Stars', filename: 'speedstars.html' },
+            { name: 'Sprunki', filename: 'sprunki.html' },
+            { name: 'Stack', filename: 'stack.html' },
+            { name: 'StackTris', filename: 'stacktris.html' },
+            { name: 'State.io', filename: 'stateio.html' },
+            { name: 'Stick Archers Battle', filename: 'stickarchersbattle.html' },
+            { name: 'Stick Fighter', filename: 'stickfighter.html' },
+            { name: 'Stick Man Hook', filename: 'stickmanhook.html' },
+            { name: 'Stick Merge', filename: 'stickmerge.html' },
+            { name: 'Subway Surfers Beijing', filename: 'subwaysurfersbeijing.html' },
+            { name: 'Subway Surfers Havana', filename: 'subwaysurfershavana.html' },
+            { name: 'Subway Surfers San Francisco', filename: 'subwaysurferssanfrancisco.html' },
+            { name: 'Super Bike The Champion', filename: 'superbikethechampion.html' },
+            { name: 'Superhot', filename: 'superhot.html' },
+            { name: 'Super Liquid Soccer', filename: 'superliquidsoccer.html' },
+            { name: 'Superstar Car', filename: 'superstarcar.html' },
+            { name: 'Table Tennis World Tour', filename: 'tabletennisworldtour.html' },
+            { name: 'Tag', filename: 'tag.html' },
+            { name: 'Tap Road', filename: 'taproad.html' },
+            { name: 'Temple of Boom', filename: 'templeofboom.html' },
+            { name: 'Temple Run 2', filename: 'templerun2.htm' },
+            { name: 'Territorial.io', filename: 'territorialio.html' },
+            { name: 'The Impossible Quiz', filename: 'theimpossiblequiz.html' },
+            { name: 'The Impossible Quiz 2', filename: 'theimpossiblequiz2.html' },
+            { name: 'There is No G', filename: 'thereisnog.html' },
+            { name: 'They Are Coming', filename: 'theyarecoming.html' },
+            { name: 'This is the Only Level', filename: 'thisistheonlylevel.html' },
+            { name: 'This is the Only Level Too', filename: 'thisistheonlyleveltoo.html' },
+            { name: 'Time Shooter 2', filename: 'timeshooter2.html' },
+            { name: 'Time Shooter 3', filename: 'timeshooter3.htm' },
+            { name: 'Tiny Fishing', filename: 'tinyfishing.html' },
+            { name: 'Tomb of the Mask', filename: 'tombofthemask.htm' },
+            { name: 'Trap the Cat', filename: 'trapthecat.html' },
+            { name: 'Trivia Crack', filename: 'triviacrack.html' },
+            { name: 'Tube Jumpers', filename: 'tubejumpers.html' },
+            { name: 'Tunnel Rush', filename: 'tunnelrush.html' },
+            { name: 'Unicycle Hero', filename: 'unicyclehero.html' },
+            { name: 'Vex 4', filename: 'vex4.html' },
+            { name: 'Vex 5', filename: 'vex5.html' },
+            { name: 'Vex 6', filename: 'vex6.htm' },
+            { name: 'Vex 7', filename: 'vex7.htm' },
+            { name: 'Vex 8', filename: 'vex8.htm' },
+            { name: 'Vexx 3M', filename: 'vexx3m.html' },
+            { name: 'Vexx 3M 2', filename: 'vexx3m2.html' },
+            { name: 'Volley Random', filename: 'volleyrandom.html' },
+            { name: 'War the Knights', filename: 'wartheknights.html' },
+            { name: 'We Become What We Behold', filename: 'webecomewhatwebehold.html' },
+            { name: 'Wheelie Bike', filename: 'wheeliebike.html' },
+            { name: 'Wheely', filename: 'wheely.html' },
+            { name: 'Wheely 2', filename: 'wheely2.html' },
+            { name: 'Wheely 3', filename: 'wheely3.html' },
+            { name: 'Wheely 4', filename: 'wheely4.html' },
+            { name: 'Wheely 5', filename: 'wheely5.html' },
+            { name: 'Wheely 6', filename: 'wheely6.html' },
+            { name: 'Wheely 7', filename: 'wheely7.html' },
+            { name: 'Wheely 8', filename: 'wheely8.html' },
+            { name: 'Wordle Unlimited', filename: 'wordleunlimited.html' },
+            { name: "World's Hardest Game", filename: 'worldshardestgame.html' },
+            { name: "World's Hardest Game 2", filename: 'worldshardestgame2.html' },
+            { name: "World's Hardest Game 3", filename: 'worldshardestgame3.html' },
+            { name: 'Wrestle Bros', filename: 'wrestlebros.html' },
+            { name: 'Zombie Rush', filename: 'zombierush.html' },
+        ];
+
+        // Apply theme
+        function applyTheme(color1, color2, accent) {
+            document.documentElement.style.setProperty('--primary-color-1', color1);
+            document.documentElement.style.setProperty('--primary-color-2', color2);
+            document.documentElement.style.setProperty('--accent-color', accent);
+            
+            // Save to localStorage
+            localStorage.setItem('mhiTheme', JSON.stringify({ color1, color2, accent }));
+        }
+
+        // Load saved theme
+        function loadSavedTheme() {
+            const saved = localStorage.getItem('mhiTheme');
+            if (saved) {
+                const { color1, color2, accent } = JSON.parse(saved);
+                applyTheme(color1, color2, accent);
+                document.getElementById('customColor1').value = color1;
+                document.getElementById('customColor2').value = color2;
+                document.getElementById('customAccent').value = accent;
+            }
+        }
+
+        // Initialize IndexedDB
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, 1);
+                
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => {
+                    db = request.result;
+                    resolve(db);
+                };
+                
+                request.onupgradeneeded = (event) => {
+                    const database = event.target.result;
+                    if (!database.objectStoreNames.contains(STORE_NAME)) {
+                        database.createObjectStore(STORE_NAME, { keyPath: 'filename' });
+                    }
+                };
+            });
+        }
+
+        // Get game from storage
+        function getGameFromStorage(filename) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readonly');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.get(filename);
+                
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => resolve(request.result);
+            });
+        }
+
+        // Save game to storage
+        function saveGameToStorage(filename, htmlContent) {
+            return new Promise((resolve, reject) => {
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
+                const store = transaction.objectStore(STORE_NAME);
+                const request = store.put({ filename, content: htmlContent, timestamp: Date.now() });
+                
+                request.onerror = () => reject(request.error);
+                request.onsuccess = () => resolve();
+            });
+        }
+
+        // Check if game is cached
+        async function isGameCached(filename) {
+            const game = await getGameFromStorage(filename);
+            return !!game;
+        }
+
+        // Get storage size
+        function getStorageSize() {
+            return new Promise((resolve, reject) => {
+                if (navigator.storage && navigator.storage.estimate) {
+                    navigator.storage.estimate().then(estimate => {
+                        const usedMB = (estimate.usage / 1024 / 1024).toFixed(2);
+                        const quotaMB = (estimate.quota / 1024 / 1024).toFixed(2);
+                        resolve({ used: usedMB, quota: quotaMB });
+                    }).catch(reject);
+                } else {
+                    resolve({ used: '?', quota: '?' });
+                }
+            });
+        }
+
+        // Update storage info
+        async function updateStorageInfo() {
+            try {
+                const size = await getStorageSize();
+                document.getElementById('storageInfo').textContent = 
+                    `Storage: ${size.used} MB / ${size.quota} MB used`;
+            } catch (error) {
+                console.error('Error getting storage info:', error);
+            }
+        }
+
+        // Open game
+        async function openGame(gameName, filename) {
+            if (!isAuthorized) return;
+            
+            try {
+                let htmlContent = null;
+                
+                const cached = await getGameFromStorage(filename);
+                if (cached) {
+                    htmlContent = cached.content;
+                } else {
+                    const response = await fetch(GITHUB_RAW_URL + filename);
+                    if (!response.ok) {
+                        throw new Error(`Failed to load ${filename}`);
+                    }
+                    htmlContent = await response.text();
+                    await saveGameToStorage(filename, htmlContent);
+                }
+
+                const newWindow = window.open('', '_blank');
+                if (!newWindow) {
+                    throw new Error('Failed to open window. Disable popup blocker.');
+                }
+                
+                newWindow.document.open();
+                newWindow.document.write(htmlContent);
+                newWindow.document.close();
+                newWindow.document.title = gameName + ' - MHI Games';
+
+                await renderGames();
+                
+            } catch (error) {
+                console.error('Error opening game:', error);
+                alert(`⚠️ Failed to load ${gameName}\n\nError: ${error.message}`);
+            }
+        }
+
+        // Download all games
+        async function downloadAllGames() {
+            if (!isAuthorized) return;
+            
+            const downloadBtn = document.getElementById('downloadAllBtn');
+            const progressFill = document.getElementById('progressFill');
+            
+            downloadBtn.disabled = true;
+            downloadBtn.textContent = '⬇️ Downloading...';
+            
+            let successCount = 0;
+            const total = GAMES_LIST.length;
+            
+            for (let i = 0; i < GAMES_LIST.length; i++) {
+                const game = GAMES_LIST[i];
+                try {
+                    const cached = await getGameFromStorage(game.filename);
+                    if (!cached) {
+                        const response = await fetch(GITHUB_RAW_URL + game.filename);
+                        if (response.ok) {
+                            const htmlContent = await response.text();
+                            await saveGameToStorage(game.filename, htmlContent);
+                            successCount++;
+                        }
+                    } else {
+                        successCount++;
+                    }
+                } catch (error) {
+                    console.error(`Failed to download ${game.name}:`, error);
+                }
+                
+                const progress = ((i + 1) / total) * 100;
+                progressFill.style.width = progress + '%';
+            }
+            
+            downloadBtn.disabled = false;
+            downloadBtn.textContent = `✅ Downloaded ${successCount}/${total} Games`;
+            
+            await updateStorageInfo();
+            await renderGames();
+            
+            setTimeout(() => {
+                downloadBtn.textContent = '⬇️ Download All Games';
+            }, 3000);
+        }
+
+        // Clear cache
+        async function clearCache() {
+            if (!isAuthorized) return;
+            
+            if (confirm('Are you sure you want to delete all cached games?')) {
+                try {
+                    const transaction = db.transaction([STORE_NAME], 'readwrite');
+                    const store = transaction.objectStore(STORE_NAME);
+                    store.clear();
+                    
+                    await new Promise((resolve, reject) => {
+                        transaction.oncomplete = resolve;
+                        transaction.onerror = reject;
+                    });
+                    
+                    alert('✅ Cache cleared!');
+                    await updateStorageInfo();
+                    await renderGames();
+                } catch (error) {
+                    alert('❌ Error clearing cache: ' + error.message);
+                }
+            }
+        }
+
+        // Search games
+        function filterGames(searchTerm) {
+            const term = searchTerm.toLowerCase().trim();
+            
+            if (term === '') {
+                filteredGames = [...GAMES_LIST];
+            } else {
+                filteredGames = GAMES_LIST.filter(game => 
+                    game.name.toLowerCase().includes(term)
+                );
+            }
+            
+            renderGames();
+        }
+
+        // Render games
+        async function renderGames() {
+            const container = document.getElementById('gamesContainer');
+            const countText = document.getElementById('gameCountText');
+            
+            if (filteredGames.length === 0) {
+                container.innerHTML = `
+                    <div class="no-games" style="grid-column: 1 / -1;">
+                        No games found. Try a different search!
+                    </div>
+                `;
+                countText.textContent = 'No games found';
+                return;
+            }
+
+            container.innerHTML = '';
+            countText.textContent = `Showing ${filteredGames.length} of ${GAMES_LIST.length} games`;
+            
+            for (const game of filteredGames) {
+                const button = document.createElement('button');
+                button.className = 'game-button';
+                button.textContent = game.name;
+                
+                const isCached = await isGameCached(game.filename);
+                if (isCached) {
+                    button.classList.add('cached');
+                }
+                
+                button.onclick = () => {
+                    openGame(game.name, game.filename);
+                };
+                button.title = isCached ? 
+                    `Click to play ${game.name} (cached)` : 
+                    `Click to play ${game.name} (will download)`;
+                
+                container.appendChild(button);
+            }
+        }
+
+        // Initialize
+        async function init() {
+            try {
+                // Check authorization first before loading anything
+                if (!checkAuthorization()) {
+                    return;
+                }
+                
+                // Load saved theme first
+                loadSavedTheme();
+                
+                await initDB();
+                filteredGames = [...GAMES_LIST];
+                await renderGames();
+                await updateStorageInfo();
+                
+                // Setup search box
+                const searchBox = document.getElementById('searchBox');
+                searchBox.addEventListener('input', (e) => {
+                    filterGames(e.target.value);
+                });
+
+                // Setup buttons
+                document.getElementById('downloadAllBtn').addEventListener('click', downloadAllGames);
+                document.getElementById('clearCacheBtn').addEventListener('click', clearCache);
+
+                // Setup theme presets
+                document.getElementById('themeDefault').addEventListener('click', () => {
+                    applyTheme(themes.default.color1, themes.default.color2, themes.default.accent);
+                    updateThemeButtons('themeDefault');
+                });
+                document.getElementById('themeDark').addEventListener('click', () => {
+                    applyTheme(themes.dark.color1, themes.dark.color2, themes.dark.accent);
+                    updateThemeButtons('themeDark');
+                });
+                document.getElementById('themeNeon').addEventListener('click', () => {
+                    applyTheme(themes.neon.color1, themes.neon.color2, themes.neon.accent);
+                    updateThemeButtons('themeNeon');
+                });
+                document.getElementById('themeForest').addEventListener('click', () => {
+                    applyTheme(themes.forest.color1, themes.forest.color2, themes.forest.accent);
+                    updateThemeButtons('themeForest');
+                });
+                document.getElementById('themeSunset').addEventListener('click', () => {
+                    applyTheme(themes.sunset.color1, themes.sunset.color2, themes.sunset.accent);
+                    updateThemeButtons('themeSunset');
+                });
+                document.getElementById('themeOcean').addEventListener('click', () => {
+                    applyTheme(themes.ocean.color1, themes.ocean.color2, themes.ocean.accent);
+                    updateThemeButtons('themeOcean');
+                });
+
+                // Setup custom color inputs
+                document.getElementById('customColor1').addEventListener('input', (e) => {
+                    const color1 = e.target.value;
+                    const color2 = document.getElementById('customColor2').value;
+                    const accent = document.getElementById('customAccent').value;
+                    applyTheme(color1, color2, accent);
+                    updateThemeButtons(null);
+                });
+                document.getElementById('customColor2').addEventListener('input', (e) => {
+                    const color1 = document.getElementById('customColor1').value;
+                    const color2 = e.target.value;
+                    const accent = document.getElementById('customAccent').value;
+                    applyTheme(color1, color2, accent);
+                    updateThemeButtons(null);
+                });
+                document.getElementById('customAccent').addEventListener('input', (e) => {
+                    const color1 = document.getElementById('customColor1').value;
+                    const color2 = document.getElementById('customColor2').value;
+                    const accent = e.target.value;
+                    applyTheme(color1, color2, accent);
+                    updateThemeButtons(null);
+                });
+                
+            } catch (error) {
+                console.error('Initialization error:', error);
+                alert('Error initializing launcher: ' + error.message);
+            }
+        }
+
+        function updateThemeButtons(activeId) {
+            document.querySelectorAll('.theme-preset').forEach(preset => {
+                preset.classList.remove('active');
+            });
+            if (activeId) {
+                document.getElementById(activeId).classList.add('active');
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e304d7ee48b5309',t:'MTc3NDYzNDUxMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
